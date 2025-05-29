@@ -1,4 +1,4 @@
-﻿@model FloEvent.Catering.Data.FoodItem
+﻿@model FloEvent.Web.ViewModels.FoodItemViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,38 +12,42 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="FoodItemId" />
+            <input type="hidden" asp-for="FoodItem.FoodItemId" />
+
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="FoodItem.Name" class="control-label"></label>
+                <input asp-for="FoodItem.Name" class="form-control" />
+                <span asp-validation-for="FoodItem.Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Ingredients" class="control-label"></label>
-                <input asp-for="Ingredients" class="form-control" />
-                <span asp-validation-for="Ingredients" class="text-danger"></span>
+                <label asp-for="FoodItem.Ingredients" class="control-label"></label>
+                <input asp-for="FoodItem.Ingredients" class="form-control" />
+                <span asp-validation-for="FoodItem.Ingredients" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Diet" class="control-label"></label>
-                <select asp-for="Diet" class="form-control"></select>
-                <span asp-validation-for="Diet" class="text-danger"></span>
+                <label asp-for="FoodItem.Diet" class="control-label"></label>
+                <select asp-for="FoodItem.Diet" class="form-control" asp-items="Model.DietOptions"></select>
+                <span asp-validation-for="FoodItem.Diet" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="UnitPrice" class="control-label"></label>
-                <input asp-for="UnitPrice" class="form-control" />
-                <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                <label asp-for="FoodItem.UnitPrice" class="control-label"></label>
+                <input asp-for="FoodItem.UnitPrice" class="form-control" />
+                <span asp-validation-for="FoodItem.UnitPrice" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary ml-2">Back</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

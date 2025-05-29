@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FloEvent.Catering.Data;
+using FloEvent.Web.ViewModels;
 
 namespace FloEvent.Web.Controllers
 {
@@ -17,6 +18,7 @@ namespace FloEvent.Web.Controllers
         {
             _context = context;
         }
+
 
         // GET: FoodItems
         public async Task<IActionResult> Index()
@@ -33,7 +35,7 @@ namespace FloEvent.Web.Controllers
             }
 
             var foodItem = await _context.FoodItem
-                .FirstOrDefaultAsync(m => m.FoodItemId == id);
+            .FirstOrDefaultAsync(m => m.FoodItemId == id);
             if (foodItem == null)
             {
                 return NotFound();
@@ -42,29 +44,51 @@ namespace FloEvent.Web.Controllers
             return View(foodItem);
         }
 
+
         // GET: FoodItems/Create
         public IActionResult Create()
         {
-            return View();
+            var viewModel = new FoodItemViewModel
+            {
+                DietOptions = Enum.GetValues(typeof(Diet))
+                    .Cast<Diet>()
+                    .Select(d => new SelectListItem
+                    {
+                        Value = d.ToString(),
+                        Text = d.ToString()
+                    })
+            };
+            return View(viewModel);
         }
 
         // POST: FoodItems/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FoodItemId,Name,Ingredients,Diet,UnitPrice")] FoodItem foodItem)
+        public async Task<IActionResult> Create(FoodItemViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(foodItem);
+                _context.Add(viewModel.FoodItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(foodItem);
+
+            // Repopulate DietOptions if model state is invalid
+            viewModel.DietOptions = Enum.GetValues(typeof(Diet))
+         .Cast<Diet>()
+         .Select(d => new SelectListItem
+         {
+             Value = d.ToString(),
+             Text = d.ToString()
+         });
+
+            return View(viewModel);
         }
 
+
+
         // GET: FoodItems/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,17 +101,30 @@ namespace FloEvent.Web.Controllers
             {
                 return NotFound();
             }
-            return View(foodItem);
+
+            var viewModel = new FoodItemViewModel
+            {
+                FoodItem = foodItem,
+                DietOptions = Enum.GetValues(typeof(Diet))
+            .Cast<Diet>()
+            .Select(d => new SelectListItem
+            {
+                Value = d.ToString(),
+                Text = d.ToString()
+            })
+            };
+
+            return View(viewModel);
         }
 
+
         // POST: FoodItems/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FoodItemId,Name,Ingredients,Diet,UnitPrice")] FoodItem foodItem)
+        public async Task<IActionResult> Edit(int id, FoodItemViewModel viewModel)
         {
-            if (id != foodItem.FoodItemId)
+            if (id != viewModel.FoodItem.FoodItemId)
             {
                 return NotFound();
             }
@@ -96,12 +133,13 @@ namespace FloEvent.Web.Controllers
             {
                 try
                 {
-                    _context.Update(foodItem);
+                    _context.Update(viewModel.FoodItem);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FoodItemExists(foodItem.FoodItemId))
+                    if (!FoodItemExists(viewModel.FoodItem.FoodItemId))
                     {
                         return NotFound();
                     }
@@ -110,28 +148,20 @@ namespace FloEvent.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(foodItem);
+
+            // Repopulate DietOptions if model state is invalid
+            viewModel.DietOptions = Enum.GetValues(typeof(Diet))
+         .Cast<Diet>()
+         .Select(d => new SelectListItem
+         {
+             Value = d.ToString(),
+             Text = d.ToString()
+         });
+
+            return View(viewModel);
         }
 
-        // GET: FoodItems/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var foodItem = await _context.FoodItem
-                .FirstOrDefaultAsync(m => m.FoodItemId == id);
-            if (foodItem == null)
-            {
-                return NotFound();
-            }
-
-            return View(foodItem);
-        }
 
         // POST: FoodItems/Delete/5
         [HttpPost, ActionName("Delete")]
