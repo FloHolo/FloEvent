@@ -7,6 +7,7 @@ namespace FloEvent.Catering.Data
         [Required]
         public int FoodItemId { get; set; }
 
+
         [Required][StringLength(50, MinimumLength = 1)]
         public string? Description { get; set; }
 

@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloEvent.Catering", "FloEvent.Catering\FloEvent.Catering.csproj", "{F8672211-6290-4F9B-BB0C-E410A7C00FCB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloEvent.Management", "FloEvent.Management\FloEvent.Management.csproj", "{F08DF129-9C61-469B-BF4D-B0C0F5172C2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloEvent.Venues", "FloEvent.Venues\FloEvent.Venues.csproj", "{27B90C2F-4203-4161-A7E3-414434C2E522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloEvent.Web", "FloEvent.Web\FloEvent.Web.csproj", "{F2E7E4AA-DA2B-4D50-BF51-64992EFDC257}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{27B90C2F-4203-4161-A7E3-414434C2E522}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27B90C2F-4203-4161-A7E3-414434C2E522}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27B90C2F-4203-4161-A7E3-414434C2E522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2E7E4AA-DA2B-4D50-BF51-64992EFDC257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2E7E4AA-DA2B-4D50-BF51-64992EFDC257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2E7E4AA-DA2B-4D50-BF51-64992EFDC257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2E7E4AA-DA2B-4D50-BF51-64992EFDC257}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

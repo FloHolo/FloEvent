@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FloEvent.Catering.Data;
 
-namespace FloEvent.Catering.Controllers
+namespace FloEvent.Web.Controllers
 {
     public class FoodItemsController : Controller
     {
