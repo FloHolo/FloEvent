@@ -53,7 +53,7 @@ namespace FloEvent.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FoodItemId,Description,UnitPrice")] FoodItem foodItem)
+        public async Task<IActionResult> Create([Bind("FoodItemId,Name,Ingredients,Diet,UnitPrice")] FoodItem foodItem)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace FloEvent.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FoodItemId,Description,UnitPrice")] FoodItem foodItem)
+        public async Task<IActionResult> Edit(int id, [Bind("FoodItemId,Name,Ingredients,Diet,UnitPrice")] FoodItem foodItem)
         {
             if (id != foodItem.FoodItemId)
             {

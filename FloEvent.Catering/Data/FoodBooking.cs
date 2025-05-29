@@ -8,9 +8,6 @@ namespace FloEvent.Catering.Data
         [Required]
         public int FoodBookingId { get; set; }
 
-        [Required]
-        public int ClientReferenceId { get; set; } // Foreign key to ClientReference
-
         public int NumberOfGuests { get; set; }
 
         [Required]
