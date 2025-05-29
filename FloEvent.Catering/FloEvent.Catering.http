@@ -1,0 +1,6 @@
+@FloEvent.Catering_HostAddress = http://localhost:5168
+
+GET {{FloEvent.Catering_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
