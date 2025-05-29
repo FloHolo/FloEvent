@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloEvent.Management", "FloE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloEvent.Venues", "FloEvent.Venues\FloEvent.Venues.csproj", "{27B90C2F-4203-4161-A7E3-414434C2E522}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloEvent.Web", "FloEvent.Web\FloEvent.Web.csproj", "{5935519B-F05E-4901-BA8E-750202A838B1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{27B90C2F-4203-4161-A7E3-414434C2E522}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27B90C2F-4203-4161-A7E3-414434C2E522}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27B90C2F-4203-4161-A7E3-414434C2E522}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5935519B-F05E-4901-BA8E-750202A838B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5935519B-F05E-4901-BA8E-750202A838B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5935519B-F05E-4901-BA8E-750202A838B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5935519B-F05E-4901-BA8E-750202A838B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
