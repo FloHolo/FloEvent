@@ -5,10 +5,10 @@ namespace FloEvent.Catering.Data
     public class CateringDbContext :DbContext
     {
 
-        public DbSet<Menu> Menu { get; set; }
-        public DbSet<FoodItem> FoodItem { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<FoodItem> FoodItems { get; set; }
         public DbSet<MenuFoodItems> MenuFoodItems { get; set; }
-        public DbSet<FoodBooking> FoodBooking { get; set; }
+        public DbSet<FoodBooking> FoodBookings { get; set; }
 
         private string DbPath { get; }
 

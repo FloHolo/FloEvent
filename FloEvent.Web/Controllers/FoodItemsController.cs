@@ -19,44 +19,50 @@ namespace FloEvent.Web.Controllers
             _context = context;
         }
 
-
         // GET: FoodItems
         public async Task<IActionResult> Index()
         {
-            return View(await _context.FoodItem.ToListAsync());
+            var viewModels = await _context.FoodItems
+                .Select(f => new FoodItemViewModel
+                {
+                    FoodItemId = f.FoodItemId,
+                    Name = f.Name,
+                    Ingredients = f.Ingredients,
+                    Diet = f.Diet,
+                    UnitPrice = f.UnitPrice
+                })
+                .ToListAsync();
+
+            return View(viewModels); 
         }
 
         // GET: FoodItems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var foodItem = await _context.FoodItem
-            .FirstOrDefaultAsync(m => m.FoodItemId == id);
-            if (foodItem == null)
-            {
-                return NotFound();
-            }
+            var foodItem = await _context.FoodItems
+                .FirstOrDefaultAsync(m => m.FoodItemId == id);
+            if (foodItem == null) return NotFound();
 
-            return View(foodItem);
+            var viewModel = new FoodItemViewModel
+            {
+                FoodItemId = foodItem.FoodItemId,
+                Name = foodItem.Name,
+                Ingredients = foodItem.Ingredients,
+                Diet = foodItem.Diet,
+                UnitPrice = foodItem.UnitPrice
+            };
+
+            return View(viewModel); 
         }
-
 
         // GET: FoodItems/Create
         public IActionResult Create()
         {
             var viewModel = new FoodItemViewModel
             {
-                DietOptions = Enum.GetValues(typeof(Diet))
-                    .Cast<Diet>()
-                    .Select(d => new SelectListItem
-                    {
-                        Value = d.ToString(),
-                        Text = d.ToString()
-                    })
+                DietOptions = GetDietOptions()
             };
             return View(viewModel);
         }
@@ -68,119 +74,129 @@ namespace FloEvent.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(viewModel.FoodItem);
+                var foodItem = new FoodItem
+                {
+                    Name = viewModel.Name,
+                    Ingredients = viewModel.Ingredients,
+                    Diet = viewModel.Diet,
+                    UnitPrice = viewModel.UnitPrice
+                };
+
+                _context.Add(foodItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            // Repopulate DietOptions if model state is invalid
-            viewModel.DietOptions = Enum.GetValues(typeof(Diet))
-         .Cast<Diet>()
-         .Select(d => new SelectListItem
-         {
-             Value = d.ToString(),
-             Text = d.ToString()
-         });
-
+            viewModel.DietOptions = GetDietOptions();
             return View(viewModel);
         }
 
-
-
         // GET: FoodItems/Edit/5
-
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var foodItem = await _context.FoodItem.FindAsync(id);
-            if (foodItem == null)
-            {
-                return NotFound();
-            }
+            var foodItem = await _context.FoodItems.FindAsync(id);
+            if (foodItem == null) return NotFound();
 
             var viewModel = new FoodItemViewModel
             {
-                FoodItem = foodItem,
-                DietOptions = Enum.GetValues(typeof(Diet))
-            .Cast<Diet>()
-            .Select(d => new SelectListItem
-            {
-                Value = d.ToString(),
-                Text = d.ToString()
-            })
+                FoodItemId = foodItem.FoodItemId,
+                Name = foodItem.Name,
+                Ingredients = foodItem.Ingredients,
+                Diet = foodItem.Diet,
+                UnitPrice = foodItem.UnitPrice,
+                DietOptions = GetDietOptions()
             };
 
             return View(viewModel);
         }
 
-
         // POST: FoodItems/Edit/5
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, FoodItemViewModel viewModel)
         {
-            if (id != viewModel.FoodItem.FoodItemId)
-            {
-                return NotFound();
-            }
+            if (id != viewModel.FoodItemId) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(viewModel.FoodItem);
+                    var foodItem = await _context.FoodItems.FindAsync(id);
+                    if (foodItem == null) return NotFound();
+
+                    foodItem.Name = viewModel.Name;
+                    foodItem.Ingredients = viewModel.Ingredients;
+                    foodItem.Diet = viewModel.Diet;
+                    foodItem.UnitPrice = viewModel.UnitPrice;
+
+                    _context.Update(foodItem);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FoodItemExists(viewModel.FoodItem.FoodItemId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!FoodItemExists(viewModel.FoodItemId)) return NotFound();
+                    throw;
                 }
             }
 
-            // Repopulate DietOptions if model state is invalid
-            viewModel.DietOptions = Enum.GetValues(typeof(Diet))
-         .Cast<Diet>()
-         .Select(d => new SelectListItem
-         {
-             Value = d.ToString(),
-             Text = d.ToString()
-         });
-
+            viewModel.DietOptions = GetDietOptions();
             return View(viewModel);
         }
 
+        // GET: FoodItems/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var foodItem = await _context.FoodItems
+                .FirstOrDefaultAsync(m => m.FoodItemId == id);
+            if (foodItem == null) return NotFound();
+
+            var viewModel = new FoodItemViewModel
+            {
+                FoodItemId = foodItem.FoodItemId,
+                Name = foodItem.Name,
+                Ingredients = foodItem.Ingredients,
+                Diet = foodItem.Diet,
+                UnitPrice = foodItem.UnitPrice
+            };
+
+            return View(viewModel); 
+        }
 
         // POST: FoodItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var foodItem = await _context.FoodItem.FindAsync(id);
+            var foodItem = await _context.FoodItems.FindAsync(id);
             if (foodItem != null)
             {
-                _context.FoodItem.Remove(foodItem);
+                _context.FoodItems.Remove(foodItem);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FoodItemExists(int id)
         {
-            return _context.FoodItem.Any(e => e.FoodItemId == id);
+            return _context.FoodItems.Any(e => e.FoodItemId == id);
+        }
+
+        // Helper method for diet dropdown
+        private IEnumerable<SelectListItem> GetDietOptions()
+        {
+            return Enum.GetValues(typeof(Diet))
+                .Cast<Diet>()
+                .Select(d => new SelectListItem
+                {
+                    Value = d.ToString(),
+                    Text = d.ToString()
+                });
         }
     }
 }
