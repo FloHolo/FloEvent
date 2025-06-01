@@ -1,24 +1,30 @@
 ﻿@model FloEvent.Catering.Data.Menu
 
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h1>Details</h1>
+<h2>Menu Details</h2>
 
 <div>
-    <h4>Menu</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MenuName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MenuName)
-        </dd>
-    </dl>
+    <h4>@Model.MenuName</h4>
+
+    <h5>Included Food Items</h5>
+    @if (Model.MenuFoodItems != null && Model.MenuFoodItems.Any())
+    {
+        <ul>
+            @foreach (var item in Model.MenuFoodItems)
+            {
+                <li>
+                    <strong>@item.FoodItem?.Name</strong> - @item.FoodItem?.Diet
+                    <br />
+                    <em>@item.FoodItem?.Ingredients</em>
+                    <br />
+                    Price: @item.FoodItem?.UnitPrice.ToString("C")
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No food items added to this menu.</p>
+    }
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MenuId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
